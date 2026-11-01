@@ -8,7 +8,7 @@ The purpose of this initiative is to build a solid, advanced knowledge base alig
 
 | Level | Status |
 |:------|:-------|
-|🟢 Beginner | ⏳ Not Started |
+|🟢 Beginner | 🔄 Ongoing |
 |🔵 Intermediate | ⏳ Not Started |
 |🟡 Intermediate + | ⏳ Not Started |
 |🟠 Advanced | ⏳ Not Started |
