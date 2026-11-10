@@ -1,3 +1,5 @@
+from art import logo
+
 LETTERS_LIST: list = [
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
     'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -7,7 +9,7 @@ LETTERS_LIST: list = [
     'u', 'v', 'w', 'x', 'y', 'z'
 ]
 
-def get_type() -> str:
+def get_mode() -> str:
     """
     Collect the text indicating whether the user will encode or decode a message.
 
@@ -21,6 +23,23 @@ def get_type() -> str:
             return type
         else:
             print("Type only 'encode' or 'decode'." + "\n")
+
+def get_shift_number() -> int:
+    """
+    Get the user's shift number input, preventing the entry of other types of text.
+
+    Returns:
+        Returns the shift number, properly converted
+    """
+    while True:
+        try:
+            number: int = int(input("Insert the shift number: "))
+            return number
+        except ValueError:
+            print("The shift number needs to be an integer.")
+        except Exception as e:
+            print(type(e))
+            print(e)
             
 
 def ceasar_cipher(type: str, message: str, shift_number: int) -> str:
@@ -36,10 +55,9 @@ def ceasar_cipher(type: str, message: str, shift_number: int) -> str:
         The message is encoded if the user selects 'encode', or decoded if the user selects 'decode'.
     """
     formatted_message: str = message.lower().strip()
-
     shift_number: int = abs(shift_number) % 26
 
-    encrypted_message: list = []
+    output_text: str = ''
     
     for letter in formatted_message:
 
@@ -47,16 +65,28 @@ def ceasar_cipher(type: str, message: str, shift_number: int) -> str:
             position: int = LETTERS_LIST.index(letter)
 
             if type == 'encode':
-                encrypted_message.append(LETTERS_LIST[position + shift_number])
+                output_text += LETTERS_LIST[position + shift_number]
             if type == 'decode':
-                encrypted_message.append(LETTERS_LIST[(position - shift_number)])
+                output_text += LETTERS_LIST[position - shift_number]
         else:
-            encrypted_message.append(letter)
+            output_text += letter
 
-    return ''.join(encrypted_message)
+    return output_text
 
-encoded_message: str = ceasar_cipher('encode', 'hello world!', 94)
-print(encoded_message)
+print(logo)
 
-decoded_message: str = ceasar_cipher('decode', 'xubbe mehbt!', 94)
-print(decoded_message)
+continue_cypher: bool = True
+
+while continue_cypher:
+    cipher_mode: str = get_mode()
+    message: str = input("Type your message: ")
+    shift_number: int = get_shift_number()
+
+    encoded_message: str = ceasar_cipher(cipher_mode, message, shift_number)
+    print(encoded_message)
+
+    finish_cipher: str = input("Type 'yes' if you want to go again. Otherwise type 'no': ").strip().lower()
+
+    if finish_cipher == 'no':
+        continue_cypher = False
+        print("Cipher closed.")
