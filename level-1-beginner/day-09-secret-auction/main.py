@@ -1,7 +1,18 @@
-print("Welcome to the secret auction program.")
+import os
+from art import logo
+
+def clear_console() -> None:
+    """
+    Clear the terminal depending on the operating system.
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def submit_bid() -> dict:
     """
+    Collects a bid from an auction participant.
+
+    Returns:
+        A dictionary with the name and bid value from a participant.
     """
     name: str = input("What is your name? ").strip().capitalize()
 
@@ -16,21 +27,38 @@ def submit_bid() -> dict:
             print(e)
     
     bid_registration: dict = {
-        "name": name,
-        "bid_value": bid_value
+        name: bid_value
     }
 
     return bid_registration
 
-auction_record: list = []
+def auction() -> list:
+    """
+    Records all bids from the auction in a dictionary.
 
-while True:
-    bid_record: dict = submit_bid()
-    auction_record.append(bid_record)
+    Returns:
+        A dictionary mapping bidder names to their bid values.
+    """
 
-    close_bidding: str = input("Are there any other bidders? Type 'yes' or 'no'. ").strip().lower()[0]
+    auction_bids: dict = {}
 
-    if close_bidding == 'n':
-        break
+    while True:
+        bid_record: dict = submit_bid()
+        auction_bids.update(bid_record)
 
-print(auction_record)
+        close_bidding: str = input("Are there any other bidders? Type 'yes' or 'no'. ").strip().lower()[0]
+        clear_console()
+
+        if close_bidding == 'n':
+            return auction_bids
+
+print(logo)
+print("Welcome to the secret auction program.")
+
+auction_record: dict = auction()
+
+auction_winner: str
+winner_bid: float
+auction_winner, winner_bid = max(auction_record.items(), key=lambda x: x[1])
+
+print(f"The winner is {auction_winner} with a bid of ${winner_bid:.2f}.")
