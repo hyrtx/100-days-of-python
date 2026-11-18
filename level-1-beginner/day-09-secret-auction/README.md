@@ -27,7 +27,7 @@ graph TD
     D --> E[Clear Terminal Screen]
     E --> F{Are there other bidders? 'yes' or 'no'}
     F -- Yes --> C
-    F -- No --> G[Evaluate Bids using max() and Lambda]
+    F -- No --> G[Evaluate Bids]
     G --> H[Display Winner & Highest Bid Amount]
     H --> I[End Program]
 ```
